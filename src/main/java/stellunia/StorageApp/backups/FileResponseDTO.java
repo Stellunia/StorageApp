@@ -1,8 +1,9 @@
+/*
 package stellunia.StorageApp.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import stellunia.StorageApp.file.StorageFile;
+import stellunia.StorageApp.fileDatabase.StorageFile;
 
 import java.util.UUID;
 
@@ -18,8 +19,10 @@ public class FileResponseDTO {
         return new FileResponseDTO(
                 storageFile.getFileName(),
                 storageFile.getStorageUser().getUsername(),
-                storageFile.getStorageUser().getId()/*,
-                    file.getFolder().getUsername()*/
+                storageFile.getStorageUser().getId()*/
+/*,
+                    file.getFolder().getUsername()*//*
+
         );
     }
-}
+}*/

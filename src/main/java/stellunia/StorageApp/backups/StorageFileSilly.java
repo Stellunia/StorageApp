@@ -1,4 +1,4 @@
-package stellunia.StorageApp.file;
+package stellunia.StorageApp.backups;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -11,7 +11,7 @@ import java.util.UUID;
 @Entity
 @Data
 @NoArgsConstructor
-public class StorageFile {
+public class StorageFileSilly {
 
     // TODO: Create a database alongside tables if they don't exists so that the application can establish itself
 
@@ -32,7 +32,7 @@ public class StorageFile {
 /*    @ManyToOne
     private Folder folder;*/
 
-    public StorageFile(StorageUser user, String fileName, String content, long fileSize/*,
+    public StorageFileSilly(StorageUser user, String fileName, String content, long fileSize/*,
     long size, boolean isDirectory, Folder folder*/) {
         this.fileId = UUID.randomUUID();
         this.fileName = fileName;

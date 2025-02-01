@@ -17,7 +17,7 @@ public class FileService {
     private final UserRepository userRepository;
     //private final FolderRepository folderRepository;
 
-    public StorageFile uploadFileToFolder(UUID userId, String name, String content, long fileSize) {
+    public StorageFileSilly uploadFileToFolder(UUID userId, String name, String content, long fileSize) {
         StorageUser user = userRepository
                 .findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found."));
@@ -26,11 +26,11 @@ public class FileService {
                 .findById(folderId)
                 .orElseThrow(() -> new IllegalArgumentException("Folder not found."));*//*
 
-        StorageFile storageFile = new StorageFile(user, name, content, fileSize);
+        StorageFileSilly storageFile = new StorageFileSilly(user, name, content, fileSize);
         return fileRepository.save(storageFile);
     }
 
-*//*    public StorageFile uploadFileToFolder(UUID userId, String name, String content, long fileSize) {
+*//*    public StorageFileSilly uploadFileToFolder(UUID userId, String name, String content, long fileSize) {
         StorageUser user = userRepository
                 .findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found."));
@@ -39,7 +39,7 @@ public class FileService {
                 .findById(folderId)
                 .orElseThrow(() -> new IllegalArgumentException("Folder not found."));*//**//*
 
-        StorageFile storageFile = new StorageFile(user, name, content, fileSize);
+        StorageFileSilly storageFile = new StorageFileSilly(user, name, content, fileSize);
         return fileRepository.save(storageFile);
     }*//*
 }*/

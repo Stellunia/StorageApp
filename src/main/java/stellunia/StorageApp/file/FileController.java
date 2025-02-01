@@ -20,7 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import stellunia.StorageApp.dto.CreateFileDTO;
-import stellunia.StorageApp.dto.FileResponseDTO;
+//import stellunia.StorageApp.dto.FileResponseDTO;
 import stellunia.StorageApp.utility.ErrorResponseDTO;
 
 import java.io.IOException;
@@ -59,7 +59,7 @@ public class FileController {
                 "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
 
-    @PostMapping("/upload")
+    @PostMapping("/uploadDefunct")
     public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile multipartFile,
             RedirectAttributes redirectAttributes) {
 
@@ -70,7 +70,7 @@ public class FileController {
         return ResponseEntity.ok("stinky upload done.");
     }
 
-    @GetMapping(/*value = */"/download"/*, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE*/)
+    @GetMapping(/*value = */"/downloadDefunct"/*, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE*/)
     @ResponseBody
     public ResponseEntity<?> downloadFile(@RequestParam("file_name") String fileName,
                                           RedirectAttributes redirectAttributes) {
@@ -98,7 +98,6 @@ public class FileController {
         return new FileSystemResource(fileService.load(fileName));
     }
 
-
 /*    @PostMapping("/upload")
     public ResponseEntity<?> uploadFile(
             @RequestParam("file") MultipartFile multipartFile,
@@ -107,16 +106,12 @@ public class FileController {
             String fileName = multipartFile.getOriginalFilename();
             long fileSize = multipartFile.getSize();
             String fileContent = new String(multipartFile.getBytes());
-            StorageFile storageFile = fileService.uploadFileToFolder(createFile.userId, fileName, *//*createFile.folderName,*//* fileContent, fileSize);
+            StorageFileSilly storageFile = fileService.uploadFileToFolder(createFile.userId, fileName, *//*createFile.folderName,*//* fileContent, fileSize);
             return ResponseEntity.ok(FileResponseDTO.fromModel(storageFile));
         } catch (Exception exception) {
             return ResponseEntity.badRequest().body(new ErrorResponseDTO(exception.getMessage()));
         }
     }*/
-
-
-
-
 
 /*    public File(String username, User storageUser, long size, boolean isDirectory, Folder folder) {
         this.fileId = UUID.randomUUID();

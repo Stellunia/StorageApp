@@ -3,7 +3,7 @@ package stellunia.StorageApp.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import stellunia.StorageApp.fileDatabase.StorageFile;
+import stellunia.StorageApp.file.StorageFile;
 
 import java.util.UUID;
 

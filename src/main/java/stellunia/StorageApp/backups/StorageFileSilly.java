@@ -1,3 +1,4 @@
+/*
 package stellunia.StorageApp.backups;
 
 import jakarta.persistence.*;
@@ -24,16 +25,22 @@ public class StorageFileSilly {
     //private boolean isDirectory = false; // Maybe make the directory a different object? Kind of like blogpost vs comments?
     // Users exists, users make blogposts (folders), users can then comment on these blogposts (upload files)
     // - but restrict the accessibility of the blogposts to just be accessible to one person
-/*    private long size;*/
+*/
+/*    private long size;*//*
+
 
     @ManyToOne
     private StorageUser storageUser;
 
+*/
 /*    @ManyToOne
-    private Folder folder;*/
+    private Folder folder;*//*
 
-    public StorageFileSilly(StorageUser user, String fileName, String content, long fileSize/*,
-    long size, boolean isDirectory, Folder folder*/) {
+
+    public StorageFileSilly(StorageUser user, String fileName, String content, long fileSize*/
+/*,
+    long size, boolean isDirectory, Folder folder*//*
+) {
         this.fileId = UUID.randomUUID();
         this.fileName = fileName;
         this.storageUser = user;
@@ -41,6 +48,9 @@ public class StorageFileSilly {
         this.fileSize = fileSize;
         //this.size = size;
         //this.isDirectory = isDirectory;
-/*        this.folder = folder;*/
+*/
+/*        this.folder = folder;*//*
+
     }
 }
+*/

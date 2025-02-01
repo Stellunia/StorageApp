@@ -1,3 +1,4 @@
+/*
 package stellunia.StorageApp.file;
 
 import java.io.IOException;
@@ -102,3 +103,4 @@ public class FileSystemStorageService implements StorageService {
         }
     }
 }
+*/

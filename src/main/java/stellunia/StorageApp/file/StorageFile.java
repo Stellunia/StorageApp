@@ -1,11 +1,7 @@
-package stellunia.StorageApp.fileDatabase;
+package stellunia.StorageApp.file;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Type;
 import stellunia.StorageApp.user.StorageUser;
 
 import java.util.UUID;

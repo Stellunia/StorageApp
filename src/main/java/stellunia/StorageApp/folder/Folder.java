@@ -1,13 +1,10 @@
-/*package stellunia.StorageApp.folder;
+package stellunia.StorageApp.folder;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import stellunia.StorageApp.storageUser.User;
+import stellunia.StorageApp.user.StorageUser;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -18,8 +15,7 @@ import java.util.UUID;
 
 @Entity
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Table(name = "storage_folders")
 public class Folder {
 
     @Id
@@ -33,12 +29,12 @@ public class Folder {
     private Instant lastModified;
 
     @ManyToOne
-    private User storageUser;
+    private StorageUser storageUser;
 
     @OneToMany(mappedBy = "folders")
     private List<Files> files;
 
-    public Folder(String username, long size, boolean isDirectory, User storageUser) {
+    public Folder(String username, long size, boolean isDirectory, StorageUser storageUser) {
         this.folderId = UUID.randomUUID();
         this.username = username;
         this.storageUser = storageUser;
@@ -46,4 +42,4 @@ public class Folder {
         this.isDirectory = isDirectory;
         this.files = new ArrayList<>();
     }
-}*/
+}

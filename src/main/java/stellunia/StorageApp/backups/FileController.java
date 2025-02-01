@@ -1,3 +1,4 @@
+/*
 package stellunia.StorageApp.file;
 
 import jakarta.servlet.http.HttpServletResponse;
@@ -70,7 +71,11 @@ public class FileController {
         return ResponseEntity.ok("stinky upload done.");
     }
 
-    @GetMapping(/*value = */"/downloadDefunct"/*, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE*/)
+    @GetMapping(*/
+/*value = *//*
+"/downloadDefunct"*/
+/*, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE*//*
+)
     @ResponseBody
     public ResponseEntity<?> downloadFile(@RequestParam("file_name") String fileName,
                                           RedirectAttributes redirectAttributes) {
@@ -98,6 +103,7 @@ public class FileController {
         return new FileSystemResource(fileService.load(fileName));
     }
 
+*/
 /*    @PostMapping("/upload")
     public ResponseEntity<?> uploadFile(
             @RequestParam("file") MultipartFile multipartFile,
@@ -106,13 +112,19 @@ public class FileController {
             String fileName = multipartFile.getOriginalFilename();
             long fileSize = multipartFile.getSize();
             String fileContent = new String(multipartFile.getBytes());
-            StorageFileSilly storageFile = fileService.uploadFileToFolder(createFile.userId, fileName, *//*createFile.folderName,*//* fileContent, fileSize);
+            StorageFileSilly storageFile = fileService.uploadFileToFolder(createFile.userId, fileName, *//*
+*/
+/*createFile.folderName,*//*
+*/
+/* fileContent, fileSize);
             return ResponseEntity.ok(FileResponseDTO.fromModel(storageFile));
         } catch (Exception exception) {
             return ResponseEntity.badRequest().body(new ErrorResponseDTO(exception.getMessage()));
         }
-    }*/
+    }*//*
 
+
+*/
 /*    public File(String username, User storageUser, long size, boolean isDirectory, Folder folder) {
         this.fileId = UUID.randomUUID();
         this.username = username;
@@ -120,6 +132,8 @@ public class FileController {
         this.size = size;
         this.isDirectory = isDirectory;
         this.folder = folder;
-    }*/
+    }*//*
+
 
 }
+*/

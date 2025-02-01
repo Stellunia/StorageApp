@@ -8,7 +8,7 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import stellunia.StorageApp.fileDatabase.StorageFile;
+import stellunia.StorageApp.file.StorageFile;
 
 import java.util.ArrayList;
 import java.util.Collection;

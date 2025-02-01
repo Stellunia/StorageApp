@@ -1,17 +1,15 @@
-package stellunia.StorageApp.fileDatabase;
+package stellunia.StorageApp.file;
 
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-import stellunia.StorageApp.file.FileRepository;
-import stellunia.StorageApp.fileDatabase.StorageFile;
 
-import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -32,5 +30,9 @@ public class StorageFileService {
 
     public Optional<StorageFile> getFile(UUID id) {
         return fileRepository.findById(id);
+    }
+
+    public Collection<StorageFile> getAllFiles(int page) {
+        return fileRepository.findAll(PageRequest.of(page, 20)).toList();
     }
 }

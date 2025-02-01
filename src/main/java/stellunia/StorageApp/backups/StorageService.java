@@ -1,3 +1,4 @@
+/*
 package stellunia.StorageApp.file;
 
 import org.springframework.core.io.Resource;
@@ -20,3 +21,4 @@ public interface StorageService {
 
     void deleteAll();
 }
+*/

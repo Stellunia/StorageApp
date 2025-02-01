@@ -2,7 +2,6 @@ package stellunia.StorageApp.file;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import stellunia.StorageApp.fileDatabase.StorageFile;
 
 import java.util.Optional;
 import java.util.UUID;

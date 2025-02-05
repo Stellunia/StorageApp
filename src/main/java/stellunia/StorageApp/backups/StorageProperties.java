@@ -9,7 +9,7 @@ public class StorageProperties {
 
     */
 /**
-     * Folder location for storing files
+     * StorageFolder location for storing files
      *//*
 
 

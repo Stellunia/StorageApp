@@ -8,6 +8,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface UserRepository extends JpaRepository<StorageUser, UUID> {
+public interface StorageUserRepository extends JpaRepository<StorageUser, UUID> {
     Optional<StorageUser> findByUsername(String username);
 }

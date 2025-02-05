@@ -12,16 +12,16 @@ import stellunia.StorageApp.utility.ErrorResponseDTO;
 import java.util.List;
 
 @RestController
-@RequestMapping("/storageuser")
+@RequestMapping("/storageapp/storageuser")
 @RequiredArgsConstructor
-public class UserController {
+public class StorageUserController {
 
-    private final UserService userService;
+    private final StorageUserService storageUserService;
 
     @PostMapping("/createUser")
     public ResponseEntity<?> createUser(@RequestBody CreateUserDTO createUser) {
         try {
-            StorageUser storageUser = userService.createUser(createUser.username, createUser.password);
+            StorageUser storageUser = storageUserService.createUser(createUser.username, createUser.password);
             return ResponseEntity.ok(new UserResponseDTO(storageUser.getId(), storageUser.getUsername()));
         } catch (Exception exception) {
             return ResponseEntity.badRequest().body(new ErrorResponseDTO(exception.getMessage()));
@@ -31,7 +31,7 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginUserDTO loginUser) {
         try {
-            String token = userService.login(loginUser.username, loginUser.password);
+            String token = storageUserService.login(loginUser.username, loginUser.password);
             return ResponseEntity.ok(token);
         } catch (Exception exception) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Wrong username or password.");
@@ -41,7 +41,7 @@ public class UserController {
     @GetMapping
     public ResponseEntity<?> getAllUsers(){
         try {
-            List<UserResponseDTO> storageUsers = userService.getAllUsers();
+            List<UserResponseDTO> storageUsers = storageUserService.getAllUsers();
             return ResponseEntity.ok().body(storageUsers);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());

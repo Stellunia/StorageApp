@@ -2,6 +2,8 @@ package stellunia.StorageApp.file;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
+import stellunia.StorageApp.folder.StorageFolder;
 import stellunia.StorageApp.user.StorageUser;
 
 import java.util.UUID;
@@ -29,22 +31,19 @@ public class StorageFile {
     @JoinColumn(name = "storage_user_id")
     private StorageUser storageUser;
 
-/*    @ManyToOne
-    private Folder folder;*/
+    @ManyToOne
+    @JoinColumn(name = "storage_folder_id")
+    private StorageFolder storageFolder;
 
-    public StorageFile() {
-        this.fileId = UUID.randomUUID();
-    }
+    public StorageFile() {this.fileId = UUID.randomUUID();}
 
-    public StorageFile(String fileName, String fileType, byte[] fileData/*,
-    long size, boolean isDirectory, Folder folder*/) {
+    @Autowired
+    public StorageFile(String fileName, String fileType, byte[] fileData, StorageFolder storageFolder) {
         this.fileId = UUID.randomUUID();
         this.fileName = fileName;
         this.fileType = fileType;
         this.fileData = fileData;
-        //this.size = size;
-        //this.isDirectory = isDirectory;
-        /*        this.folder = folder;*/
+        this.storageFolder = storageFolder;
     }
 }
 

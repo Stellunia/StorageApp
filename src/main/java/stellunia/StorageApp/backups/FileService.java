@@ -2,7 +2,7 @@
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-*//*import stellunia.StorageApp.folder.Folder;
+*//*import stellunia.StorageApp.folder.StorageFolder;
 import stellunia.StorageApp.folder.FolderRepository;*//*
 import stellunia.StorageApp.user.StorageUser;
 import stellunia.StorageApp.user.UserRepository;
@@ -13,7 +13,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class FileService {
 
-    private final FileRepository fileRepository;
+    private final StorageFileRepository fileRepository;
     private final UserRepository userRepository;
     //private final FolderRepository folderRepository;
 
@@ -22,9 +22,9 @@ public class FileService {
                 .findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found."));
 
-*//*        Folder folder = folderRepository
+*//*        StorageFolder folder = folderRepository
                 .findById(folderId)
-                .orElseThrow(() -> new IllegalArgumentException("Folder not found."));*//*
+                .orElseThrow(() -> new IllegalArgumentException("StorageFolder not found."));*//*
 
         StorageFileSilly storageFile = new StorageFileSilly(user, name, content, fileSize);
         return fileRepository.save(storageFile);
@@ -35,9 +35,9 @@ public class FileService {
                 .findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found."));
 
-*//**//*        Folder folder = folderRepository
+*//**//*        StorageFolder folder = folderRepository
                 .findById(folderId)
-                .orElseThrow(() -> new IllegalArgumentException("Folder not found."));*//**//*
+                .orElseThrow(() -> new IllegalArgumentException("StorageFolder not found."));*//**//*
 
         StorageFileSilly storageFile = new StorageFileSilly(user, name, content, fileSize);
         return fileRepository.save(storageFile);

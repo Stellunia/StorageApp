@@ -4,7 +4,7 @@ package stellunia.StorageApp.backups;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-//import stellunia.StorageApp.folder.Folder;
+//import stellunia.StorageApp.folder.StorageFolder;
 import stellunia.StorageApp.user.StorageUser;
 
 import java.util.UUID;
@@ -34,12 +34,12 @@ public class StorageFileSilly {
 
 */
 /*    @ManyToOne
-    private Folder folder;*//*
+    private StorageFolder folder;*//*
 
 
     public StorageFileSilly(StorageUser user, String fileName, String content, long fileSize*/
 /*,
-    long size, boolean isDirectory, Folder folder*//*
+    long size, boolean isDirectory, StorageFolder folder*//*
 ) {
         this.fileId = UUID.randomUUID();
         this.fileName = fileName;

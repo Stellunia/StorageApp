@@ -7,8 +7,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface FileRepository extends JpaRepository<StorageFile, UUID> {
+public interface StorageFileRepository extends JpaRepository<StorageFile, UUID> {
     Optional<StorageFile> findByFileName(String name);
-/*    List<StorageFileSilly> findByUserId(UUID userId);
+    /*List<StorageFileSilly> findByUserId(UUID userId);
     Optional<StorageFileSilly> findByFileNameAndUserId(String filename, UUID userId);*/
 }

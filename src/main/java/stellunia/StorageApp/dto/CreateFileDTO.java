@@ -15,5 +15,4 @@ public class CreateFileDTO {
     public String fileContent;
     public long fileSize;
     //public String folderName;
-
 }

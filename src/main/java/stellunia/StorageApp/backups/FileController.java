@@ -16,7 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-//import stellunia.StorageApp.folder.Folder;
+//import stellunia.StorageApp.folder.StorageFolder;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -64,7 +64,7 @@ public class FileController {
     public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile multipartFile,
             RedirectAttributes redirectAttributes) {
 
-        fileService.store(multipartFile);
+        fileService.uploadFile(multipartFile);
         redirectAttributes.addFlashAttribute("message",
                 "You successfully uploaded " + multipartFile.getOriginalFilename() + "!");
 
@@ -125,7 +125,7 @@ public class FileController {
 
 
 */
-/*    public File(String username, User storageUser, long size, boolean isDirectory, Folder folder) {
+/*    public File(String username, User storageUser, long size, boolean isDirectory, StorageFolder folder) {
         this.fileId = UUID.randomUUID();
         this.username = username;
         this.storageUser = storageUser;

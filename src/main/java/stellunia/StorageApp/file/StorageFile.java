@@ -2,45 +2,48 @@ package stellunia.StorageApp.file;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-//import stellunia.StorageApp.folder.Folder;
+import org.springframework.beans.factory.annotation.Autowired;
+import stellunia.StorageApp.folder.StorageFolder;
 import stellunia.StorageApp.user.StorageUser;
 
 import java.util.UUID;
 
 @Entity
+@Table(name = "storage_file")
 @Data
-@NoArgsConstructor
 public class StorageFile {
 
-    // TODO: Create a database alongside tables if they don't exists so that the application can establish itself
-
     @Id
+    @Column(name = "file_id")
     private UUID fileId;
 
+    @Column(name = "file_name")
     private String fileName;
-    private String content;
-    private long fileSize;
-    //private boolean isDirectory = false; // Maybe make the directory a different object? Kind of like blogpost vs comments?
-    // Users exists, users make blogposts (folders), users can then comment on these blogposts (upload files)
-    // - but restrict the accessibility of the blogposts to just be accessible to one person
-/*    private long size;*/
 
-    @ManyToOne
+    @Column(name = "file_type")
+    private String fileType;
+
+    @Lob
+    @Column(name = "file_data")
+    private byte[] fileData;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "storage_user_id")
     private StorageUser storageUser;
 
-/*    @ManyToOne
-    private Folder folder;*/
+    @ManyToOne
+    @JoinColumn(name = "storage_folder_id")
+    private StorageFolder storageFolder;
 
-    public StorageFile(StorageUser user, String fileName, String content, long fileSize/*,
-    long size, boolean isDirectory, Folder folder*/) {
+    public StorageFile() {this.fileId = UUID.randomUUID();}
+
+    @Autowired
+    public StorageFile(String fileName, String fileType, byte[] fileData, StorageFolder storageFolder) {
         this.fileId = UUID.randomUUID();
         this.fileName = fileName;
-        this.storageUser = user;
-        this.content = content;
-        this.fileSize = fileSize;
-        //this.size = size;
-        //this.isDirectory = isDirectory;
-/*        this.folder = folder;*/
+        this.fileType = fileType;
+        this.fileData = fileData;
+        this.storageFolder = storageFolder;
     }
 }
+

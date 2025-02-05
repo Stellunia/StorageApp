@@ -1,3 +1,4 @@
+/*
 package stellunia.StorageApp.file;
 
 import jakarta.servlet.http.HttpServletResponse;
@@ -15,12 +16,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-//import stellunia.StorageApp.folder.Folder;
+//import stellunia.StorageApp.folder.StorageFolder;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import stellunia.StorageApp.dto.CreateFileDTO;
-import stellunia.StorageApp.dto.FileResponseDTO;
+//import stellunia.StorageApp.dto.FileResponseDTO;
 import stellunia.StorageApp.utility.ErrorResponseDTO;
 
 import java.io.IOException;
@@ -59,18 +60,22 @@ public class FileController {
                 "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
 
-    @PostMapping("/upload")
+    @PostMapping("/uploadDefunct")
     public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile multipartFile,
             RedirectAttributes redirectAttributes) {
 
-        fileService.store(multipartFile);
+        fileService.uploadFile(multipartFile);
         redirectAttributes.addFlashAttribute("message",
                 "You successfully uploaded " + multipartFile.getOriginalFilename() + "!");
 
         return ResponseEntity.ok("stinky upload done.");
     }
 
-    @GetMapping(/*value = */"/download"/*, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE*/)
+    @GetMapping(*/
+/*value = *//*
+"/downloadDefunct"*/
+/*, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE*//*
+)
     @ResponseBody
     public ResponseEntity<?> downloadFile(@RequestParam("file_name") String fileName,
                                           RedirectAttributes redirectAttributes) {
@@ -98,7 +103,7 @@ public class FileController {
         return new FileSystemResource(fileService.load(fileName));
     }
 
-
+*/
 /*    @PostMapping("/upload")
     public ResponseEntity<?> uploadFile(
             @RequestParam("file") MultipartFile multipartFile,
@@ -107,24 +112,28 @@ public class FileController {
             String fileName = multipartFile.getOriginalFilename();
             long fileSize = multipartFile.getSize();
             String fileContent = new String(multipartFile.getBytes());
-            StorageFile storageFile = fileService.uploadFileToFolder(createFile.userId, fileName, *//*createFile.folderName,*//* fileContent, fileSize);
+            StorageFileSilly storageFile = fileService.uploadFileToFolder(createFile.userId, fileName, *//*
+*/
+/*createFile.folderName,*//*
+*/
+/* fileContent, fileSize);
             return ResponseEntity.ok(FileResponseDTO.fromModel(storageFile));
         } catch (Exception exception) {
             return ResponseEntity.badRequest().body(new ErrorResponseDTO(exception.getMessage()));
         }
-    }*/
+    }*//*
 
 
-
-
-
-/*    public File(String username, User storageUser, long size, boolean isDirectory, Folder folder) {
+*/
+/*    public File(String username, User storageUser, long size, boolean isDirectory, StorageFolder folder) {
         this.fileId = UUID.randomUUID();
         this.username = username;
         this.storageUser = storageUser;
         this.size = size;
         this.isDirectory = isDirectory;
         this.folder = folder;
-    }*/
+    }*//*
+
 
 }
+*/

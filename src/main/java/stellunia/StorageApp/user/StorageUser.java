@@ -29,14 +29,14 @@ public class StorageUser implements UserDetails {
     private String password;
     private boolean admin = false;
 
-    @OneToMany(mappedBy = "storageUser", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "storageUser", fetch = FetchType.LAZY)
     private List<StorageFile> userFiles = new ArrayList<>();
 
     public StorageUser(String name, String password) {
         this.id = UUID.randomUUID();
         this.username = name;
         this.password = password;
-        this.userFiles = new ArrayList<>();
+        //this.userFiles = new ArrayList<>();
     }
 
     @Override

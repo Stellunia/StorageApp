@@ -14,9 +14,9 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class UserService implements UserDetailsService {
+public class StorageUserService implements UserDetailsService {
 
-    private final UserRepository userRepository;
+    private final StorageUserRepository storageUserRepository;
     private final PasswordEncoder passwordEncoder;
     private final JWTService jwtService;
 
@@ -39,11 +39,11 @@ public class UserService implements UserDetailsService {
 
 
         StorageUser user = new StorageUser(username, password);
-        return userRepository.save(user);
+        return storageUserRepository.save(user);
     }
 
     public String login(String username, String password) {
-        StorageUser user = userRepository.findByUsername(username).orElseThrow();
+        StorageUser user = storageUserRepository.findByUsername(username).orElseThrow();
 
         if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new IllegalArgumentException("Wrong username and/or password.");
@@ -54,11 +54,11 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
+        return storageUserRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
     }
 
     public List<UserResponseDTO> getAllUsers(){
-        List<StorageUser> users =  userRepository.findAll();
+        List<StorageUser> users =  storageUserRepository.findAll();
         return users.stream().map(user -> new UserResponseDTO(user.getId(), user.getUsername()))
                 .collect(Collectors.toList());
     }

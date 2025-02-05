@@ -1,3 +1,4 @@
+/*
 package stellunia.StorageApp.file;
 
 import java.io.IOException;
@@ -30,10 +31,10 @@ public class FileSystemStorageService implements StorageService {
     }
 
     @Override
-    public void store(MultipartFile multipartFile) {
+    public void uploadFile(MultipartFile multipartFile) {
         try {
             if (multipartFile.isEmpty()) {
-                throw new StorageException("Failed to store empty file.");
+                throw new StorageException("Failed to uploadFile empty file.");
             }
             Path parentDirectory = this.rootLocation.resolve(
                     Paths.get(multipartFile.getOriginalFilename()).normalize().toAbsolutePath()).getParent();
@@ -45,7 +46,7 @@ public class FileSystemStorageService implements StorageService {
             }
         }
         catch (IOException e) {
-            throw new StorageException("Failed to store file.", e);
+            throw new StorageException("Failed to uploadFile file.", e);
         }
     }
 
@@ -102,3 +103,4 @@ public class FileSystemStorageService implements StorageService {
         }
     }
 }
+*/

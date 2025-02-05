@@ -1,3 +1,4 @@
+/*
 package stellunia.StorageApp.file;
 
 import org.springframework.core.io.Resource;
@@ -10,7 +11,7 @@ public interface StorageService {
 
     void init();
 
-    void store(MultipartFile multipartFile);
+    void uploadFile(MultipartFile multipartFile);
 
     Stream<Path> loadAll();
 
@@ -20,3 +21,4 @@ public interface StorageService {
 
     void deleteAll();
 }
+*/

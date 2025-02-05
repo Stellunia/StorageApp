@@ -1,3 +1,4 @@
+/*
 package stellunia.StorageApp.file;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -6,9 +7,11 @@ import org.springframework.context.annotation.Bean;
 @ConfigurationProperties("storage")
 public class StorageProperties {
 
-    /**
-     * Folder location for storing files
-     */
+    */
+/**
+     * StorageFolder location for storing files
+     *//*
+
 
     private String location = "upload-dir";
 
@@ -20,3 +23,4 @@ public class StorageProperties {
         this.location = location;
     }
 }
+*/

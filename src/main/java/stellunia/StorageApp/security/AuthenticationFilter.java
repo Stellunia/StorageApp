@@ -9,7 +9,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 import stellunia.StorageApp.user.StorageUser;
-import stellunia.StorageApp.user.UserRepository;
+import stellunia.StorageApp.user.StorageUserRepository;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -19,7 +19,7 @@ import java.util.UUID;
 public class AuthenticationFilter extends OncePerRequestFilter {
 
     private final JWTService jwtService;
-    private final UserRepository userRepository;
+    private final StorageUserRepository storageUserRepository;
 
     @Override
     protected void doFilterInternal(
@@ -41,7 +41,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        Optional<StorageUser> potentialUser = userRepository.findById(userId);
+        Optional<StorageUser> potentialUser = storageUserRepository.findById(userId);
         if (potentialUser.isEmpty()) {
             response.sendError(401, "Invalid token.");
             return;

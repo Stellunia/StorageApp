@@ -11,8 +11,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import stellunia.StorageApp.user.UserRepository;
-import stellunia.StorageApp.user.UserService;
+import stellunia.StorageApp.user.StorageUserRepository;
+import stellunia.StorageApp.user.StorageUserService;
 
 @Configuration
 @EnableWebSecurity
@@ -22,11 +22,11 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(
             HttpSecurity http,
             JWTService jwtService,
-            UserRepository userRepository,
-            UserService userService
+            StorageUserRepository storageUserRepository,
+            StorageUserService storageUserService
     ) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
-                .userDetailsService(userService)
+                .userDetailsService(storageUserService)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/blog-post").authenticated()
                         .requestMatchers(HttpMethod.PUT, "/blog-post/like/**", "/blog-post/dislike/**").authenticated()
@@ -34,7 +34,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, "/admin/delete-post").hasRole("ADMIN")
                         .anyRequest().permitAll()
                 )
-                .addFilterBefore(new AuthenticationFilter(jwtService, userRepository), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new AuthenticationFilter(jwtService, storageUserRepository), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

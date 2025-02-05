@@ -8,8 +8,8 @@ import stellunia.StorageApp.folder.StorageFolder;
 @Data
 @AllArgsConstructor
 public class FileResponseDTO {
+        private String fileId;
         private String fileName;
-        private String downloadUrl;
         private String fileType;
         private long size;
         private String storageFolder;

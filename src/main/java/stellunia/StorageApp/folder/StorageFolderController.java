@@ -4,9 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import stellunia.StorageApp.dto.FileResponseDTO;
 import stellunia.StorageApp.dto.FolderResponseDTO;
 import stellunia.StorageApp.file.StorageFile;
+import stellunia.StorageApp.file.StorageFileService;
 import stellunia.StorageApp.utility.ErrorResponseDTO;
 
 import java.util.Optional;
@@ -19,6 +21,7 @@ import java.util.stream.Stream;
 public class StorageFolderController {
 
     private final StorageFolderService storageFolderService;
+    private final StorageFileService storageFileService;
 
     /*public ResponseEntity<FileResponseDTO> uploadFile(@RequestParam("file")MultipartFile multipartFile,
                                                         @RequestParam("folder")String storageFolder) {*/

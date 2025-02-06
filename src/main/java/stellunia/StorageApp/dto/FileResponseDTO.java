@@ -5,6 +5,7 @@ import lombok.Data;
 import stellunia.StorageApp.file.StorageFile;
 import stellunia.StorageApp.folder.StorageFolder;
 
+// DTO for whenever a file is called and requires printing properly
 @Data
 @AllArgsConstructor
 public class FileResponseDTO {

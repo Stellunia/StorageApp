@@ -13,6 +13,7 @@ import java.util.UUID;
 public interface StorageFolderRepository extends JpaRepository<StorageFolder, UUID> {
 
     //@Query("SELECT * FROM storage_folder WHERE folder_name = ?;")
+    // findByFolderName my beloathed, you are fantastic but good gosh you're annoying
     Optional<StorageFolder> findByFolderName(String name);
 
 }

@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.UUID;
 
+// DTO for whenever a user response is required, omits password from printing
 @RequiredArgsConstructor
 @Getter
 public class UserResponseDTO {

@@ -26,8 +26,11 @@ public class StorageFileController {
     private StorageFileService storageFileService;
 
     @Autowired
-    private StorageFolderService storageFolderService; // this is null
+    private StorageFolderService storageFolderService; // this is null - fixed
 
+    // Handles file upload through the use of two parameters:
+    // "file" that is requires a MultipartFile upload
+    // "folder" that requires a user input for a valid folder
     @PostMapping("/upload")
     public ResponseEntity<Object> uploadFile(@RequestParam("file")MultipartFile multipartFile,
                                              @RequestParam("folder")String storageFolder) {
@@ -36,7 +39,7 @@ public class StorageFileController {
                 throw new StorageFileNotFoundException("Cannot upload empty file.");
             }
 
-            StorageFolder folderToStore = storageFolderService.getFolderByName(storageFolder); // here is where it fails?
+            StorageFolder folderToStore = storageFolderService.getFolderByName(storageFolder); // here is where it fails? - changed .toString() to instead get the folder name
             StorageFile storageFile = storageFileService.uploadFile(multipartFile, folderToStore);
 
             String downloadUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
@@ -57,6 +60,8 @@ public class StorageFileController {
         }
     }
 
+    // Handles file download of valid files
+    // {id} requires the file id to output into the API's window and allow for subsequent download
     @GetMapping("/download/{id}")
     public ResponseEntity<byte[]> downloadFile(@PathVariable UUID id) {
         Optional<StorageFile> fileOptional = storageFileService.getFile(id);
@@ -73,11 +78,14 @@ public class StorageFileController {
         return ResponseEntity.notFound().build();
     }
 
+    // Handles outputting a list of all files that exists
     @GetMapping("/listFiles")
     public Stream<FileResponseDTO> getFiles() {
         return storageFileService.getAllFiles().stream().map(FileResponseDTO::fromModel);
     }
 
+    // Handles deletion of specific files
+    // {id} is the UUID of the file to be deleted
     @DeleteMapping("/deleteFile/{id}")
     public ResponseEntity<?> deleteFile(@PathVariable UUID id){
         try {

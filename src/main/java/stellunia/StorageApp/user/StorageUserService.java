@@ -20,6 +20,8 @@ public class StorageUserService implements UserDetailsService {
     private final PasswordEncoder passwordEncoder;
     private final JWTService jwtService;
 
+    // Service for creating a new user
+    // Requires a body with the values "username" and "password"
     public StorageUser createUser(String username, String password) {
         if (username == null || username.isBlank()) {
             throw new IllegalArgumentException("Username cannot be empty and/or null.");
@@ -42,6 +44,8 @@ public class StorageUserService implements UserDetailsService {
         return storageUserRepository.save(user);
     }
 
+    // Service for user login
+    // Requires a body with the inputs "username" and "password" that match with existing ones within the database
     public String login(String username, String password) {
         StorageUser user = storageUserRepository.findByUsername(username).orElseThrow();
 
@@ -52,11 +56,14 @@ public class StorageUserService implements UserDetailsService {
         return jwtService.generateToken(user.getId());
     }
 
+    // Service for returning a specific user, not used yet
+    // Requires "username" input in order to return a value
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return storageUserRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
     }
 
+    // Service for returning all existing users
     public List<UserResponseDTO> getAllUsers(){
         List<StorageUser> users =  storageUserRepository.findAll();
         return users.stream().map(user -> new UserResponseDTO(user.getId(), user.getUsername()))

@@ -18,6 +18,8 @@ public class StorageFolderService {
     private final StorageFolderRepository storageFolderRepository;
     //private final StorageUserRepository storageUserRepository;
 
+    // Service for handling the creation of folders
+    // Handles the creation of a folder, alongside matching it to already existing ones if possible
     public StorageFolder createFolder(String folderName/*, StorageUser storageUser,
                                       StorageFolder childFolder, StorageFolder parentFolder*/) {
         // User storageUser = userRepository.findById(userId)
@@ -31,23 +33,25 @@ public class StorageFolderService {
         return storageFolderRepository.save(storageFolder);
     }
 
+    // Service for updating folder structure
+    // Handles fetching of a folder by name and then saving the folder
     public StorageFolder updateFolder(StorageFolder folderName) {
         StorageFolder storageFolder = storageFolderRepository.
                 findByFolderName(folderName.getFolderName())
                 .orElseThrow(() -> new IllegalArgumentException("Folder not found"));
                 storageFolderRepository.save(storageFolder);
-                // Need more?
+                // Need more? - Nopesies
         return storageFolder;
     }
 
-    // @Name returns the folder of the given name
+    // Service for getting folder by a specific name
     public StorageFolder getFolderByName(String folderName) {
         return storageFolderRepository.
                 findByFolderName(folderName)
                 .orElseThrow(() -> new IllegalArgumentException("Folder not found."));
     }
 
-    // Returns all folders within the database
+    // Service for returning all folders within the database
     public List<StorageFolder> getAllFolders() {
         return storageFolderRepository.findAll();
     }

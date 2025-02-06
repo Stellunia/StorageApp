@@ -22,6 +22,8 @@ public class StorageFileService {
     private final StorageFolderRepository storageFolderRepository;
     private final StorageFolderService storageFolderService;
 
+    // Service for the file upload sequence
+    // Handles input of the file itself as well as attributing it to an existing folder.
     @Transactional
     public StorageFile uploadFile(MultipartFile multipartFile, StorageFolder storageFolder) throws IOException {
 
@@ -45,14 +47,17 @@ public class StorageFileService {
         return storageFile;
     }
 
+    // Service for getting a specific file
     public Optional<StorageFile> getFile(UUID id) {
         return storageFileRepository.findById(id);
     }
 
+    // Service for getting all files
     public List<StorageFile> getAllFiles() {
         return storageFileRepository.findAll();
     }
 
+    // Service for deleting files
     public void deleteFile(UUID id){
         StorageFile storageFile = storageFileRepository.findById(id).orElseThrow(() ->new RuntimeException("File not found."));
         storageFileRepository.delete(storageFile);

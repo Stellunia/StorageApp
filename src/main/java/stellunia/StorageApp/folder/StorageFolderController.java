@@ -25,6 +25,9 @@ public class StorageFolderController {
 
     /*public ResponseEntity<FileResponseDTO> uploadFile(@RequestParam("file")MultipartFile multipartFile,
                                                         @RequestParam("folder")String storageFolder) {*/
+
+    // Handles the creation of folders
+    // Requires parameter "folderName" to allow for proper creation of a folder
     @PostMapping("/createFolder")
     public ResponseEntity<?> createFolder(@RequestParam("folderName")String storageFolderName/*,
                                           @RequestParam("storageUser")String storageUserName*/) {
@@ -36,6 +39,8 @@ public class StorageFolderController {
         }
     }
 
+    // Handles outputting a folder and a list of all its files
+    // Requires parameter "folderName" to allow for searching for a specific folder
     @GetMapping("/listFolder")
     public ResponseEntity<?> getFolder(@RequestParam("folderName")String folderName) {
         try {
@@ -47,6 +52,7 @@ public class StorageFolderController {
         }
     }
 
+    // Handles outputting a list of all folders and their respective files
     @GetMapping("/listFolders")
     public Stream<FolderResponseDTO> getAllFolders() {
         return storageFolderService.getAllFolders().stream().map(FolderResponseDTO::fromModel);

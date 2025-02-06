@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
+// DTO for whenever a new file is created
 @NoArgsConstructor
 @AllArgsConstructor
 @Data

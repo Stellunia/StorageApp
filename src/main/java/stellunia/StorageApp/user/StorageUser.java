@@ -30,7 +30,7 @@ public class StorageUser implements UserDetails {
     private boolean admin = false;
 
     @OneToMany(mappedBy = "storageUser", fetch = FetchType.LAZY)
-    private List<StorageFile> userFiles = new ArrayList<>();
+    private List<StorageFile> storageUserFiles = new ArrayList<>();
 
     public StorageUser(String name, String password) {
         this.id = UUID.randomUUID();

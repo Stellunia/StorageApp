@@ -9,6 +9,7 @@ import stellunia.StorageApp.folder.StorageFolder;
 import java.util.List;
 import java.util.UUID;
 
+// DTO for whenever a folder is called and requires printing
 @Data
 @AllArgsConstructor
 @Getter

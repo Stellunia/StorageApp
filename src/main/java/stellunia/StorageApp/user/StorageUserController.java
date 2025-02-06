@@ -18,6 +18,8 @@ public class StorageUserController {
 
     private final StorageUserService storageUserService;
 
+    // Handles the creation of new users
+    // Requires body input of username and password
     @PostMapping("/createUser")
     public ResponseEntity<?> createUser(@RequestBody CreateUserDTO createUser) {
         try {
@@ -28,6 +30,8 @@ public class StorageUserController {
         }
     }
 
+    // Handles the login of existing users
+    // requires body input of username and password
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginUserDTO loginUser) {
         try {
@@ -38,6 +42,7 @@ public class StorageUserController {
         }
     }
 
+    // Handles the listing of all existing users
     @GetMapping
     public ResponseEntity<?> getAllUsers(){
         try {

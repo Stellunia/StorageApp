@@ -23,7 +23,8 @@ public class SecurityConfig {
             HttpSecurity http,
             JWTService jwtService,
             StorageUserRepository storageUserRepository,
-            StorageUserService storageUserService
+            StorageUserService storageUserService,
+            OAuth2SuccessHandler oAuth2SuccessHandler
     ) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .userDetailsService(storageUserService)
@@ -34,6 +35,9 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, "/admin/delete-post").hasRole("ADMIN")
                         .anyRequest().permitAll()
                 )
+                .oauth2Login(oauth -> {
+                    oauth.successHandler(oAuth2SuccessHandler);
+                })
                 .addFilterBefore(new AuthenticationFilter(jwtService, storageUserRepository), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

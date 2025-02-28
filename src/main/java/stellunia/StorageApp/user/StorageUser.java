@@ -25,6 +25,9 @@ public class StorageUser implements UserDetails {
     @Id
     private UUID id;
 
+    private String oidcId = null;
+    private String oidcProvider = null;
+
     private String username;
     private String password;
     private boolean admin = false;

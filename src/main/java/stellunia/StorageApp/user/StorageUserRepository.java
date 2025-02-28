@@ -10,4 +10,5 @@ import java.util.UUID;
 @Repository
 public interface StorageUserRepository extends JpaRepository<StorageUser, UUID> {
     Optional<StorageUser> findByUsername(String username);
+    Optional<StorageUser> findByOidcId(String id);
 }

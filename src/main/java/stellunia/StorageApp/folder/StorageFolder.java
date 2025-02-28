@@ -35,11 +35,11 @@ public class StorageFolder {
     public StorageFolder() {this.folderId = UUID.randomUUID();}
 
     @Autowired
-    public StorageFolder(String folderName/*, StorageUser storageUser, StorageFolder parentFolder*/ ) {
+    public StorageFolder(String folderName, StorageUser storageUser/*, StorageFolder parentFolder*/ ) {
         this.folderId = UUID.randomUUID();
         this.folderName = folderName;
         this.storageFiles = new ArrayList<>();
-        //this.storageUser = storageUser;
+        this.storageUser = storageUser;
         //this.parentFolder = parentFolder;
     }
 }

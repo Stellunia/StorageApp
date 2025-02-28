@@ -7,9 +7,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import stellunia.StorageApp.dto.UserResponseDTO;
+import stellunia.StorageApp.folder.StorageFolder;
 import stellunia.StorageApp.security.JWTService;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -56,6 +58,16 @@ public class StorageUserService implements UserDetailsService {
         return jwtService.generateToken(user.getId());
     }
 
+    public StorageUser createOpenIdUser(String username, String oidcId) {
+        StorageUser storageUser = new StorageUser(username, null);
+        storageUser.setOidcId(oidcId);
+        storageUser.setOidcProvider("github");
+
+        return storageUserRepository.save(storageUser);
+    }
+
+    public Optional<StorageUser> findByOpenId(String id) { return storageUserRepository.findByOidcId(id); }
+
     // Service for returning a specific user, not used yet
     // Requires "username" input in order to return a value
     @Override
@@ -68,5 +80,12 @@ public class StorageUserService implements UserDetailsService {
         List<StorageUser> users =  storageUserRepository.findAll();
         return users.stream().map(user -> new UserResponseDTO(user.getId(), user.getUsername()))
                 .collect(Collectors.toList());
+    }
+
+    // Service for getting folder by a specific name
+    public StorageUser getUserByName(String username) {
+        return storageUserRepository.
+                findByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("User not found."));
     }
 }

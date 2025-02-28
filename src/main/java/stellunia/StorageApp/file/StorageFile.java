@@ -38,12 +38,13 @@ public class StorageFile {
     public StorageFile() {this.fileId = UUID.randomUUID();}
 
     @Autowired
-    public StorageFile(String fileName, String fileType, byte[] fileData, StorageFolder storageFolder) {
+    public StorageFile(String fileName, String fileType, byte[] fileData, StorageFolder storageFolder, StorageUser storageUser) {
         this.fileId = UUID.randomUUID();
         this.fileName = fileName;
         this.fileType = fileType;
         this.fileData = fileData;
         this.storageFolder = storageFolder;
+        this.storageUser = storageUser;
     }
 }
 

@@ -29,10 +29,10 @@ public class StorageFolderController {
     // Handles the creation of folders
     // Requires parameter "folderName" to allow for proper creation of a folder
     @PostMapping("/createFolder")
-    public ResponseEntity<?> createFolder(@RequestParam("folderName")String storageFolderName/*,
-                                          @RequestParam("storageUser")String storageUserName*/) {
+    public ResponseEntity<?> createFolder(@RequestParam("folderName")String storageFolderName,
+                                          @RequestParam("storageUser")String storageUserName) {
         try {
-            StorageFolder storageFolder = storageFolderService.createFolder(storageFolderName);
+            StorageFolder storageFolder = storageFolderService.createFolder(storageFolderName, storageUserName);
             return ResponseEntity.ok(FolderResponseDTO.fromModel(storageFolder));
         } catch (Exception exception) {
             return ResponseEntity.badRequest().body(new ErrorResponseDTO(exception.getMessage()));
@@ -46,7 +46,8 @@ public class StorageFolderController {
         try {
             StorageFolder storageFolder = storageFolderService.getFolderByName(folderName);
             return ResponseEntity.ok(new FolderResponseDTO(storageFolder.getFolderId(), storageFolder.getFolderName(),
-                    storageFolder.getStorageFiles().stream().map(FileResponseDTO::fromModel).toList()));
+                    storageFolder.getStorageFiles().stream().map(FileResponseDTO::fromModel).toList(),
+                    storageFolder.getStorageUser().getUsername()));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

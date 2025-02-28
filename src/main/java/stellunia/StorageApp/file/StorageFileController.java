@@ -12,6 +12,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import stellunia.StorageApp.dto.FileResponseDTO;
 import stellunia.StorageApp.folder.StorageFolder;
 import stellunia.StorageApp.folder.StorageFolderService;
+import stellunia.StorageApp.user.StorageUser;
+import stellunia.StorageApp.user.StorageUserService;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -28,19 +30,24 @@ public class StorageFileController {
     @Autowired
     private StorageFolderService storageFolderService; // this is null - fixed
 
+    @Autowired
+    private StorageUserService storageUserService;
+
     // Handles file upload through the use of two parameters:
     // "file" that is requires a MultipartFile upload
     // "folder" that requires a user input for a valid folder
     @PostMapping("/upload")
     public ResponseEntity<Object> uploadFile(@RequestParam("file")MultipartFile multipartFile,
-                                             @RequestParam("folder")String storageFolder) {
+                                             @RequestParam("folder")String storageFolder,
+                                             @RequestParam("user")String storageUser) {
         try {
             if (multipartFile.isEmpty()) {
                 throw new StorageFileNotFoundException("Cannot upload empty file.");
             }
 
             StorageFolder folderToStore = storageFolderService.getFolderByName(storageFolder); // here is where it fails? - changed .toString() to instead get the folder name
-            StorageFile storageFile = storageFileService.uploadFile(multipartFile, folderToStore);
+            StorageUser ownerOfFile = storageUserService.getUserByName(storageUser);
+            StorageFile storageFile = storageFileService.uploadFile(multipartFile, folderToStore, ownerOfFile);
 
             String downloadUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
                     .path("/storageapp/files/download/")
@@ -52,7 +59,8 @@ public class StorageFileController {
                     downloadUrl,
                     multipartFile.getContentType(),
                     multipartFile.getSize(),
-                    storageFile.getStorageFolder().getFolderName()
+                    storageFile.getStorageFolder().getFolderName(),
+                    storageFile.getStorageUser().getUsername()
             ));
         } catch (IllegalArgumentException | IOException e) {
             return ResponseEntity.badRequest().body(e.getMessage());

@@ -14,6 +14,7 @@ public class FileResponseDTO {
         private String fileType;
         private long size;
         private String storageFolder;
+        private String storageUser;
 
         public static FileResponseDTO fromModel(StorageFile storageFile) {
                 return new FileResponseDTO(
@@ -21,7 +22,8 @@ public class FileResponseDTO {
                         storageFile.getFileName(),
                         storageFile.getFileType(),
                         storageFile.getFileData().length,
-                        storageFile.getStorageFolder().getFolderName()
+                        storageFile.getStorageFolder().getFolderName(),
+                        storageFile.getStorageUser().getUsername()
                 );
         }
 }

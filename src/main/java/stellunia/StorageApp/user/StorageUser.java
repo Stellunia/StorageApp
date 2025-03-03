@@ -9,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import stellunia.StorageApp.file.StorageFile;
+import stellunia.StorageApp.folder.StorageFolder;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -34,6 +35,9 @@ public class StorageUser implements UserDetails {
 
     @OneToMany(mappedBy = "storageUser", fetch = FetchType.LAZY)
     private List<StorageFile> storageUserFiles = new ArrayList<>();
+
+    @OneToMany(mappedBy = "storageUser", fetch = FetchType.EAGER)
+    private List<StorageFolder> storageUserFolders = new ArrayList<>();
 
     public StorageUser(String name, String password) {
         this.id = UUID.randomUUID();

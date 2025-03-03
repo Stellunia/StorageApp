@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
@@ -39,15 +40,16 @@ public class StorageFileController {
     @PostMapping("/upload")
     public ResponseEntity<Object> uploadFile(@RequestParam("file")MultipartFile multipartFile,
                                              @RequestParam("folder")String storageFolder,
-                                             @RequestParam("user")String storageUser) {
+                                             @AuthenticationPrincipal StorageUser storageUser/*,
+                                             @RequestParam("loginSessionID")String sessionId*/) { // Needs a login session ID?
         try {
             if (multipartFile.isEmpty()) {
                 throw new StorageFileNotFoundException("Cannot upload empty file.");
             }
 
             StorageFolder folderToStore = storageFolderService.getFolderByName(storageFolder); // here is where it fails? - changed .toString() to instead get the folder name
-            StorageUser ownerOfFile = storageUserService.getUserByName(storageUser);
-            StorageFile storageFile = storageFileService.uploadFile(multipartFile, folderToStore, ownerOfFile);
+            //StorageUser ownerOfFile = storageUserService.getUserByName(storageUser);
+            StorageFile storageFile = storageFileService.uploadFile(multipartFile, folderToStore, storageUser);
 
             String downloadUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
                     .path("/storageapp/files/download/")

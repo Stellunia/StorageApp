@@ -43,7 +43,7 @@ public class StorageUserController {
     }
 
     // Handles the listing of all existing users
-    @GetMapping
+    @GetMapping("/getUsers")
     public ResponseEntity<?> getAllUsers(){
         try {
             List<UserResponseDTO> storageUsers = storageUserService.getAllUsers();

@@ -21,7 +21,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AuthenticationFilter extends OncePerRequestFilter {
 
-    private final JWTService jwtService;
+    //private final JWTService jwtService;
     private final StorageUserRepository storageUserRepository;
 
     @Override
@@ -58,7 +58,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        UUID userId;
+/*        UUID userId;
         try {
             userId = jwtService.validateToken(authHeader);
         } catch (Exception exception) {
@@ -76,7 +76,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 
         SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(
                 user, user.getPassword(), user.getAuthorities()
-        ));
+        ));*/
         filterChain.doFilter(request, response);
     }
 }

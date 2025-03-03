@@ -18,7 +18,7 @@ import java.util.UUID;
 import java.util.stream.Stream;
 
 @RestController
-@RequestMapping("storageapp/folder")
+@RequestMapping("/storageapp/folder")
 @RequiredArgsConstructor
 public class StorageFolderController {
 

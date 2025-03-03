@@ -57,8 +57,13 @@ public class StorageUserService implements UserDetailsService {
     // Service for user login
     // Requires a body with the inputs "username" and "password" that match with existing ones within the database
     public String login(String username, String password) {
-        StorageUser user = storageUserRepository.findByUsername(username).orElseThrow();
-
+        StorageUser user;
+        try {
+            user = storageUserRepository.findByUsername(username).orElseThrow();
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+            throw e;
+        }
         if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new IllegalArgumentException("Wrong username and/or password.");
         }

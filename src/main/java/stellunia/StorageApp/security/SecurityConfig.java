@@ -42,8 +42,7 @@ public class SecurityConfig {
                         //.requestMatchers("/", "/error", "/webjars/**").permitAll()
                         .anyRequest().authenticated()//.permitAll()
                 )
-                .oauth2Login(oauth -> {
-                    oauth.successHandler(oAuth2SuccessHandler);
+                .oauth2Login(oauth -> {oauth.successHandler(oAuth2SuccessHandler);
                 });
                 //.addFilterBefore(new AuthenticationFilter(/*jwtService,*/ storageUserRepository), UsernamePasswordAuthenticationFilter.class);
 

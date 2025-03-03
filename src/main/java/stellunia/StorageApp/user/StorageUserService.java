@@ -42,8 +42,16 @@ public class StorageUserService implements UserDetailsService {
         }
 
 
-        StorageUser user = new StorageUser(username, password);
+        StorageUser user = new StorageUser(username, passwordEncoder.encode(password));
         return storageUserRepository.save(user);
+    }
+
+    public StorageUser createOpenIdUser(String username, String oidcId) {
+        StorageUser storageUser = new StorageUser(username, null);
+        storageUser.setOidcId(oidcId);
+        storageUser.setOidcProvider("github");
+
+        return storageUserRepository.save(storageUser);
     }
 
     // Service for user login
@@ -56,14 +64,6 @@ public class StorageUserService implements UserDetailsService {
         }
 
         return jwtService.generateToken(user.getId());
-    }
-
-    public StorageUser createOpenIdUser(String username, String oidcId) {
-        StorageUser storageUser = new StorageUser(username, null);
-        storageUser.setOidcId(oidcId);
-        storageUser.setOidcProvider("github");
-
-        return storageUserRepository.save(storageUser);
     }
 
     public Optional<StorageUser> findByOpenId(String id) { return storageUserRepository.findByOidcId(id); }

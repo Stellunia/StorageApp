@@ -3,12 +3,14 @@ package stellunia.StorageApp.folder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import stellunia.StorageApp.dto.FileResponseDTO;
 import stellunia.StorageApp.dto.FolderResponseDTO;
 import stellunia.StorageApp.file.StorageFile;
 import stellunia.StorageApp.file.StorageFileService;
+import stellunia.StorageApp.user.StorageUser;
 import stellunia.StorageApp.utility.ErrorResponseDTO;
 
 import java.util.Optional;
@@ -30,9 +32,9 @@ public class StorageFolderController {
     // Requires parameter "folderName" to allow for proper creation of a folder
     @PostMapping("/createFolder")
     public ResponseEntity<?> createFolder(@RequestParam("folderName")String storageFolderName,
-                                          @RequestParam("storageUser")String storageUserName) {
+                                          @AuthenticationPrincipal StorageUser storageUser) {
         try {
-            StorageFolder storageFolder = storageFolderService.createFolder(storageFolderName, storageUserName);
+            StorageFolder storageFolder = storageFolderService.createFolder(storageFolderName, storageUser.getOidcId());
             return ResponseEntity.ok(FolderResponseDTO.fromModel(storageFolder));
         } catch (Exception exception) {
             return ResponseEntity.badRequest().body(new ErrorResponseDTO(exception.getMessage()));

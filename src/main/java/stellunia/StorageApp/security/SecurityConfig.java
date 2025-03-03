@@ -27,12 +27,16 @@ public class SecurityConfig {
             OAuth2SuccessHandler oAuth2SuccessHandler
     ) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
-                .userDetailsService(storageUserService)
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.POST, "/blog-post").authenticated()
-                        .requestMatchers(HttpMethod.PUT, "/blog-post/like/**", "/blog-post/dislike/**").authenticated()
-                        .requestMatchers(HttpMethod.PUT, "/comment").authenticated()
-                        .requestMatchers(HttpMethod.DELETE, "/admin/delete-post").hasRole("ADMIN")
+                .userDetailsService(storageUserService)                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(HttpMethod.POST, "/storageapp/files/upload").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/storageapp/files/listFiles").authenticated()
+
+                        .requestMatchers(HttpMethod.POST, "/storageapp/folder/createFolder").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/storageapp/folder/listFolder").authenticated()
+
+                        .requestMatchers(HttpMethod.GET, "/storageapp/storageuser/getUsers").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/storageapp/folder/listFolders").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/deleteFile/{id}").hasRole("ADMIN")
                         .anyRequest().permitAll()
                 )
                 .oauth2Login(oauth -> {

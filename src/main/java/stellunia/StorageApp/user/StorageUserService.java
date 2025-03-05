@@ -12,6 +12,7 @@ import stellunia.StorageApp.security.JWTService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -72,6 +73,8 @@ public class StorageUserService implements UserDetailsService {
     }
 
     public Optional<StorageUser> findByOpenId(String id) { return storageUserRepository.findByOidcId(id); }
+
+    public Optional<StorageUser> findByUserId(String userId) { return storageUserRepository.findById(UUID.fromString(userId)); }
 
     // Service for returning a specific user, not used yet
     // Requires "username" input in order to return a value

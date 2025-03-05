@@ -28,7 +28,7 @@ public class StorageFileService {
     // Service for the file upload sequence
     // Handles input of the file itself as well as attributing it to an existing folder.
     @Transactional
-    public StorageFile uploadFile(MultipartFile multipartFile, StorageFolder storageFolder, StorageUser storageUser) throws IOException {
+    public StorageFile uploadFile(MultipartFile multipartFile, StorageFolder storageFolder, String storageUser) throws IOException {
 
         Optional<StorageFile> storageFileExists = storageFileRepository.findByFileName(multipartFile.getOriginalFilename());
         if (storageFileExists.isPresent()) {
@@ -40,7 +40,7 @@ public class StorageFileService {
             throw new NoSuchElementException("Folder doesn't exist.");
         }
 
-        Optional<StorageUser> storageUserExists = storageUserRepository.findByUsername(storageUser.getUsername());
+        Optional<StorageUser> storageUserExists = storageUserRepository.findByUsername(storageUser);
         if (storageUserExists.isEmpty()) {
             throw new NoSuchElementException("User does not exist.");
         }
@@ -56,8 +56,20 @@ public class StorageFileService {
     }
 
     // Service for getting a specific file
-    public Optional<StorageFile> getFile(UUID id) {
+    public Optional<StorageFile> getFileById(UUID id) {
         return storageFileRepository.findById(id);
+    }
+
+    public Optional<StorageFile> getFileByStringId(String id) {
+        return storageFileRepository.findById(UUID.fromString(id));
+    }
+
+    public Optional<StorageFile> getFileByName(String fileName) {
+        return storageFileRepository.findByFileName(fileName);
+    }
+
+    public List<StorageFile> getUserFiles(String userId) {
+        return storageFileRepository.findByStorageUserId(UUID.fromString(userId));
     }
 
     // Service for getting all files

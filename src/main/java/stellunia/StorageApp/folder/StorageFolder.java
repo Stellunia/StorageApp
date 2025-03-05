@@ -2,7 +2,9 @@ package stellunia.StorageApp.folder;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.RepresentationModel;
 import stellunia.StorageApp.file.StorageFile;
 import stellunia.StorageApp.user.StorageUser;
 
@@ -10,10 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
-@Data
 @Table(name = "storage_folder")
-public class StorageFolder {
+@Data
+public class StorageFolder extends RepresentationModel<StorageFolder> {
 
     @Id
     @Column(name = "folder_id")
@@ -41,5 +44,12 @@ public class StorageFolder {
         this.storageFiles = new ArrayList<>();
         this.storageUser = storageUser;
         //this.parentFolder = parentFolder;
+    }
+
+    @Override
+    public String toString() {
+        return "StorageFolder{" +
+                "folderName='" + folderName + '\'' +
+                '}';
     }
 }

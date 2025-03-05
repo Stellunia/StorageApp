@@ -29,6 +29,11 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
+
+	implementation("org.springframework.hateoas:spring-hateoas")
+	implementation("org.springframework.boot:spring-boot-starter-hateoas")
+	implementation("org.springframework.plugin:spring-plugin-core")
+
 	compileOnly("org.projectlombok:lombok")
 	runtimeOnly("org.postgresql:postgresql")
 	annotationProcessor("org.projectlombok:lombok")

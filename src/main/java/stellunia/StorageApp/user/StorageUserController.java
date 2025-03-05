@@ -1,7 +1,8 @@
 package stellunia.StorageApp.user;
 
 import lombok.*;
-import org.apache.coyote.Response;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -12,13 +13,18 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import stellunia.StorageApp.dto.CreateUserDTO;
+import stellunia.StorageApp.dto.FileResponseDTO;
 import stellunia.StorageApp.dto.LoginUserDTO;
 import stellunia.StorageApp.dto.UserResponseDTO;
+import stellunia.StorageApp.file.StorageFile;
+import stellunia.StorageApp.file.StorageFileController;
+import stellunia.StorageApp.file.StorageFileService;
 import stellunia.StorageApp.utility.ErrorResponseDTO;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/storageapp/storageuser")
@@ -26,6 +32,44 @@ import java.util.Map;
 public class StorageUserController {
 
     private final StorageUserService storageUserService;
+    private final StorageFileService storageFileService;
+
+    @GetMapping
+    public ResponseEntity<?> userHomePage() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        OAuth2AuthenticationToken oauth2Token = (OAuth2AuthenticationToken) authentication;
+        OAuth2User oAuth2User = oauth2Token.getPrincipal();
+
+        String oidcId = oAuth2User.getAttribute("id")+ "";
+        String username = oAuth2User.getAttribute("login");
+        UUID userId = storageUserService.getUserByName(username).getId();
+        System.out.println("Welcome, " + username);
+
+
+        List<FileResponseDTO> storageFiles = storageFileService.getUserFiles(String.valueOf(userId)).stream()
+                .map(FileResponseDTO::fromModel)
+                .toList();
+
+        for (final FileResponseDTO storageFile : storageFiles) {
+            Optional<StorageFile> fileOptional = storageFileService.getFileByName(storageFile.getFileId());
+            if (fileOptional.isPresent()) {
+                UUID fileId = fileOptional.get().getFileId();
+                Link selfLink = linkTo(methodOn(StorageFileController.class).getUserFiles(String.valueOf(userId))).withSelfRel();
+                storageFile.add(selfLink);
+            }
+
+
+
+
+            //String fileId = storageFileService.getFileByName(storageFile.getFileId()).toString();
+        }
+
+
+        Link link = linkTo(methodOn(StorageFileController.class).getUserFiles(String.valueOf(userId))).withSelfRel();
+        CollectionModel<FileResponseDTO> result = CollectionModel.of(storageFiles, link);
+        ResponseEntity.ok("Welcome, " + username + "\n");
+        return ResponseEntity.ok(result);
+    }
 
     // Handles the creation of new users
     // Requires body input of username and password
@@ -56,8 +100,8 @@ public class StorageUserController {
         }
     }
 
-    // Handles the listing of all existing users
-    @GetMapping("/getUsers")
+    // Handles the listing of all existing users - gaslight, girlboss, gatekeep... or admin
+    @GetMapping("/admin/getUsers")
     public ResponseEntity<?> getAllUsers(){
         try {
             List<UserResponseDTO> storageUsers = storageUserService.getAllUsers();
@@ -70,13 +114,11 @@ public class StorageUserController {
     @GetMapping("/helloWorld")
     public ResponseEntity<?> helloWorld(){
         try {
-            System.out.println("Hello World!");
+            System.out.println("Hello World!"); // Change this later on, cause it a bit chaos - need to be scruncled
             System.out.println(RequestContextHolder.currentRequestAttributes().getSessionId());
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             OAuth2AuthenticationToken oauth2Token = (OAuth2AuthenticationToken) authentication;
             OAuth2User oAuth2User = oauth2Token.getPrincipal();
-
-            System.out.println(oauth2Token.getAuthorizedClientRegistrationId());
 
             String oidcId = oAuth2User.getName();
             String username = oAuth2User.getAttribute("login");

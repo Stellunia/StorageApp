@@ -29,16 +29,12 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)
                 .userDetailsService(storageUserService)
                 .authorizeHttpRequests(auth -> auth
-/*                        .requestMatchers(HttpMethod.POST, "/storageapp/files/upload").authenticated()
-                        .requestMatchers(HttpMethod.GET, "/storageapp/files/listFiles").authenticated()
-                        .requestMatchers(HttpMethod.GET, "/storageapp/storageuser/helloWorld").authenticated()
 
-                        .requestMatchers(HttpMethod.POST, "/storageapp/folder/createFolder").authenticated()
-                        .requestMatchers(HttpMethod.GET, "/storageapp/folder/listFolder").authenticated()*/
-
+                        .requestMatchers(HttpMethod.GET, "/storageapp/folder/listFolder").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/storageapp/files/listFiles").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/storageapp/storageuser/getUsers").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/storageapp/folder/listFolders").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/deleteFile/{id}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/deleteFile/").authenticated()
                         //.requestMatchers("/", "/error", "/webjars/**").permitAll()
                         .anyRequest().authenticated()//.permitAll()
                 )

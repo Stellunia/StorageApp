@@ -21,7 +21,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Getter
 @Setter
-public class StorageUser implements UserDetails {
+public class StorageUser implements UserDetails{
 
     @Id
     private UUID id;

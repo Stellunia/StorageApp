@@ -1,19 +1,14 @@
 package stellunia.StorageApp.file;
 
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import stellunia.StorageApp.dto.FileResponseDTO;
 import stellunia.StorageApp.folder.StorageFolder;
 import stellunia.StorageApp.folder.StorageFolderService;
-import stellunia.StorageApp.user.StorageUser;
 import stellunia.StorageApp.user.StorageUserService;
 
 import java.io.IOException;
@@ -21,8 +16,10 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+
 @RestController
-@RequestMapping("/storageapp/files")
+@RequestMapping("/storageapp/storageuser/files")
 public class StorageFileController {
 
     @Autowired
@@ -40,7 +37,7 @@ public class StorageFileController {
     @PostMapping("/upload")
     public ResponseEntity<Object> uploadFile(@RequestParam("file")MultipartFile multipartFile,
                                              @RequestParam("folder")String storageFolder,
-                                             @AuthenticationPrincipal StorageUser storageUser/*,
+                                             @RequestParam("user") String storageUser/*,
                                              @RequestParam("loginSessionID")String sessionId*/) { // Needs a login session ID?
         try {
             if (multipartFile.isEmpty()) {
@@ -52,7 +49,7 @@ public class StorageFileController {
             StorageFile storageFile = storageFileService.uploadFile(multipartFile, folderToStore, storageUser);
 
             String downloadUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path("/storageapp/files/download/")
+                    .path("/storageapp/storageuser/files/download/")
                     .path(storageFile.getFileId().toString())
                     .toUriString();
 
@@ -74,7 +71,7 @@ public class StorageFileController {
     // {id} requires the file id to output into the API's window and allow for subsequent download
     @GetMapping("/download/{id}")
     public ResponseEntity<byte[]> downloadFile(@PathVariable UUID id) {
-        Optional<StorageFile> fileOptional = storageFileService.getFile(id);
+        Optional<StorageFile> fileOptional = storageFileService.getFileById(id);
 
         if (fileOptional.isPresent()) {
             StorageFile storageFile = fileOptional.get();
@@ -89,9 +86,22 @@ public class StorageFileController {
     }
 
     // Handles outputting a list of all files that exists
-    @GetMapping("/listFiles")
+    @GetMapping("/admin/listFiles")
     public Stream<FileResponseDTO> getFiles() {
         return storageFileService.getAllFiles().stream().map(FileResponseDTO::fromModel);
+    }
+
+    @GetMapping("/searchFile")
+    public Optional<StorageFile> getFileByFileAndUserId(@PathVariable UUID fileId,
+                                                        @RequestParam UUID userId) {
+        return storageFileService.getFileById(fileId);
+    }
+
+    // Replacement for /listFiles to let the user search for files that are designated in their ID
+    @GetMapping("/userFiles")
+    public Stream<FileResponseDTO> getUserFiles(
+            @RequestParam("userId")String userId) {
+        return storageFileService.getUserFiles(userId).stream().map(FileResponseDTO::fromModel);
     }
 
     // Handles deletion of specific files

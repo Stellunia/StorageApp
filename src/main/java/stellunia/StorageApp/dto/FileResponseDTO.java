@@ -2,13 +2,13 @@ package stellunia.StorageApp.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.hateoas.RepresentationModel;
 import stellunia.StorageApp.file.StorageFile;
-import stellunia.StorageApp.folder.StorageFolder;
 
 // DTO for whenever a file is called and requires printing properly
 @Data
 @AllArgsConstructor
-public class FileResponseDTO {
+public class FileResponseDTO extends RepresentationModel<FileResponseDTO> {
         private String fileId;
         private String fileName;
         private String fileType;

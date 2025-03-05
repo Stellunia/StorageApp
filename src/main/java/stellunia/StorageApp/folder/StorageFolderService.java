@@ -9,6 +9,7 @@ import stellunia.StorageApp.user.StorageUserRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 
 @Service
@@ -59,6 +60,15 @@ public class StorageFolderService {
         return storageFolderRepository.
                 findByFolderName(folderName)
                 .orElseThrow(() -> new IllegalArgumentException("Folder not found."));
+    }
+
+    public List<StorageFolder> getUserFolders(String userId) {
+        return storageFolderRepository.findByStorageUserId(UUID.fromString(userId));
+/*        UUID findByStorageUserId;
+        storageUserRepository.findById(UUID.fromString(userId));
+        return storageFolderRepository
+                .findByStorageUserId(UUID.fromString(userId))
+                .orElseThrow(() -> new IllegalArgumentException("User not found."));*/
     }
 
     // Service for returning all folders within the database

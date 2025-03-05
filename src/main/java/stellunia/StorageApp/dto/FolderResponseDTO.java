@@ -3,7 +3,7 @@ package stellunia.StorageApp.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
-import stellunia.StorageApp.file.StorageFile;
+import org.springframework.hateoas.RepresentationModel;
 import stellunia.StorageApp.folder.StorageFolder;
 
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @Getter
-public class FolderResponseDTO {
+public class FolderResponseDTO extends RepresentationModel<StorageFolder> {
     private UUID folderId;
     private String folderName;
     //private UUID userId;

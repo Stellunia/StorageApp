@@ -2,16 +2,19 @@ package stellunia.StorageApp.file;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.RepresentationModel;
 import stellunia.StorageApp.folder.StorageFolder;
 import stellunia.StorageApp.user.StorageUser;
 
 import java.util.UUID;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "storage_file")
 @Data
-public class StorageFile {
+public class StorageFile extends RepresentationModel<StorageFile> {
 
     @Id
     @Column(name = "file_id")
@@ -45,6 +48,11 @@ public class StorageFile {
         this.fileData = fileData;
         this.storageFolder = storageFolder;
         this.storageUser = storageUser;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
     }
 }
 

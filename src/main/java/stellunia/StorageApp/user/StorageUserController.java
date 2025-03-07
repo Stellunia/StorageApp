@@ -52,15 +52,16 @@ public class StorageUserController {
 
         for (final FileResponseDTO storageFile : storageFiles) {
             Optional<StorageFile> fileOptional = storageFileService.getFileByName(storageFile.getFileId());
-            if (fileOptional.isPresent()) {
+            // Fetch this a different way 'cause it's not cooperating at all - skips the "if fileOptional.isPresent" call and just fucks right off
+            if (fileOptional.isPresent()) { // ^ -> storageFiles -> FileResponseDTO -> fileId
                 UUID fileId = fileOptional.get().getFileId();
-                Link selfLink = linkTo(methodOn(StorageFileController.class).getUserFiles(String.valueOf(userId))).withSelfRel();
-                storageFile.add(selfLink);
+                //Link selfLink = linkTo(methodOn(StorageFileController.class).getUserFiles(String.valueOf(userId))).withSelfRel();
+
+                Link downloadLink = linkTo(methodOn(StorageFileController.class).downloadFile(fileId)).withSelfRel();
+                Link deleteLink = linkTo(methodOn(StorageFileController.class).deleteFile(fileId)).withSelfRel();
+                storageFile.add(downloadLink);
+                storageFile.add(deleteLink);
             }
-
-
-
-
             //String fileId = storageFileService.getFileByName(storageFile.getFileId()).toString();
         }
 

@@ -11,5 +11,7 @@ import java.util.UUID;
 public interface StorageFileRepository extends JpaRepository<StorageFile, UUID> {
     Optional<StorageFile> findByFileName(String name);
     List<StorageFile> findByStorageUserId(UUID userId);
+    Optional<StorageFile> findByFileId(UUID fileId);
+    //Optional<StorageFile> optFindByStorageUserId(UUID userId);
     /*Optional<StorageFileSilly> findByFileNameAndUserId(String filename, UUID userId);*/
 }

@@ -68,6 +68,11 @@ public class StorageFileService {
         return storageFileRepository.findByFileName(fileName);
     }
 
+/*    public Optional<StorageFile> getFileByUserId(UUID fileId, UUID userId) {
+        storageFileRepository.findByFileId(fileId);
+        return storageFileRepository.findByStorageUserId(userId);
+    }*/
+
     public List<StorageFile> getUserFiles(String userId) {
         return storageFileRepository.findByStorageUserId(UUID.fromString(userId));
     }

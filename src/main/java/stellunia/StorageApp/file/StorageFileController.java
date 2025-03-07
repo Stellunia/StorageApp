@@ -9,6 +9,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import stellunia.StorageApp.dto.FileResponseDTO;
 import stellunia.StorageApp.folder.StorageFolder;
 import stellunia.StorageApp.folder.StorageFolderService;
+import stellunia.StorageApp.user.StorageUser;
 import stellunia.StorageApp.user.StorageUserService;
 
 import java.io.IOException;
@@ -70,8 +71,10 @@ public class StorageFileController {
     // Handles file download of valid files
     // {id} requires the file id to output into the API's window and allow for subsequent download
     @GetMapping("/download/{id}")
-    public ResponseEntity<byte[]> downloadFile(@PathVariable UUID id) {
+    public ResponseEntity<byte[]> downloadFile(@PathVariable UUID id/*,
+                                               @RequestParam UUID userId*/) {
         Optional<StorageFile> fileOptional = storageFileService.getFileById(id);
+        //Optional<StorageFile> doesFileAndUserExist = storageFileService.getFileByUserId(id, userId);
 
         if (fileOptional.isPresent()) {
             StorageFile storageFile = fileOptional.get();
@@ -79,6 +82,7 @@ public class StorageFileController {
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + storageFile.getFileName() + "\"")
                     .header(HttpHeaders.CONTENT_TYPE, storageFile.getFileType())
                     //.header(HttpHeaders.CONTENT_LOCATION, "Folder: " + storageFile.getStorageFolder())
+                    // Need to figure out how to have folders add an extra navigational thingy to the URI
                     .body(storageFile.getFileData());
         }
 
@@ -91,10 +95,10 @@ public class StorageFileController {
         return storageFileService.getAllFiles().stream().map(FileResponseDTO::fromModel);
     }
 
-    @GetMapping("/searchFile")
-    public Optional<StorageFile> getFileByFileAndUserId(@PathVariable UUID fileId,
-                                                        @RequestParam UUID userId) {
-        return storageFileService.getFileById(fileId);
+    @GetMapping("/searchFile/{id}")
+    public Optional<StorageFile> getFileByFileAndUserId(@PathVariable UUID id/*,
+                                                        @PathVariable UUID userId*/) {
+        return storageFileService.getFileById(id/*, userId*/);
     }
 
     // Replacement for /listFiles to let the user search for files that are designated in their ID

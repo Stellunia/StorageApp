@@ -60,10 +60,12 @@ public class StorageFileService {
         return storageFileRepository.findById(id);
     }
 
+    // Meant to cut out the necessities of needing UUID, a replacement for getFileById - but have not implemented it - works the same
     public Optional<StorageFile> getFileByStringId(String id) {
         return storageFileRepository.findById(UUID.fromString(id));
     }
 
+    // Service for getting a specific file by its name
     public Optional<StorageFile> getFileByName(String fileName) {
         return storageFileRepository.findByFileName(fileName);
     }
@@ -73,6 +75,7 @@ public class StorageFileService {
         return storageFileRepository.findByStorageUserId(userId);
     }*/
 
+    // Currently the main way to get files for the user - service for checking any files attributed to the user logged in
     public List<StorageFile> getUserFiles(String userId) {
         return storageFileRepository.findByStorageUserId(UUID.fromString(userId));
     }

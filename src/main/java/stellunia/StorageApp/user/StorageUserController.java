@@ -34,6 +34,8 @@ public class StorageUserController {
     private final StorageUserService storageUserService;
     private final StorageFileService storageFileService;
 
+
+    // Controller for outputting the user's "homepage" by listing all files and the relevant links that the user can take with them
     @GetMapping
     public ResponseEntity<?> userHomePage() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -51,14 +53,14 @@ public class StorageUserController {
                 .toList();
 
         for (final FileResponseDTO storageFile : storageFiles) {
-            Optional<StorageFile> fileOptional = storageFileService.getFileByName(storageFile.getFileId());
+            Optional<StorageFile> fileOptional = storageFileService.getFileById(UUID.fromString(storageFile.getFileId()));
             // Fetch this a different way 'cause it's not cooperating at all - skips the "if fileOptional.isPresent" call and just fucks right off
             if (fileOptional.isPresent()) { // ^ -> storageFiles -> FileResponseDTO -> fileId
                 UUID fileId = fileOptional.get().getFileId();
                 //Link selfLink = linkTo(methodOn(StorageFileController.class).getUserFiles(String.valueOf(userId))).withSelfRel();
 
-                Link downloadLink = linkTo(methodOn(StorageFileController.class).downloadFile(fileId)).withSelfRel();
-                Link deleteLink = linkTo(methodOn(StorageFileController.class).deleteFile(fileId)).withSelfRel();
+                Link downloadLink = linkTo(methodOn(StorageFileController.class).downloadFile(fileId)).withRel("download");
+                Link deleteLink = linkTo(methodOn(StorageFileController.class).deleteFile(fileId)).withRel("delete");
                 storageFile.add(downloadLink);
                 storageFile.add(deleteLink);
             }
@@ -74,6 +76,7 @@ public class StorageUserController {
 
     // Handles the creation of new users
     // Requires body input of username and password
+    // Redundant as its own function, but leaving it here cause I don't want to create a mess at this point
     @PostMapping
     public ResponseEntity<?> createUser(@RequestBody CreateUserDTO createUser) {
         try {
@@ -84,6 +87,7 @@ public class StorageUserController {
         }
     }
 
+    // This is redundant at this point, meant to handle login of users but honestly, beats me if it does anything at all
     @GetMapping("/login")
     public Map<String, Object> StorageUser(@AuthenticationPrincipal OAuth2User principal) {
         return Collections.singletonMap("username", principal.getAttribute("username"));
@@ -101,7 +105,7 @@ public class StorageUserController {
         }
     }
 
-    // Handles the listing of all existing users - gaslight, girlboss, gatekeep... or admin
+    // Handles the listing of all existing users - gaslight, girlboss, gatekeep... or admin, in more proper terms
     @GetMapping("/admin/getUsers")
     public ResponseEntity<?> getAllUsers(){
         try {
@@ -112,6 +116,7 @@ public class StorageUserController {
         }
     }
 
+    // Test method for outputting various items necessary to figure out what the heck is what - not meant to be a function of the application
     @GetMapping("/helloWorld")
     public ResponseEntity<?> helloWorld(){
         try {

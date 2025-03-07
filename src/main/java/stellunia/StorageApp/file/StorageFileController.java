@@ -71,8 +71,9 @@ public class StorageFileController {
     // Handles file download of valid files
     // {id} requires the file id to output into the API's window and allow for subsequent download
     @GetMapping("/download/{id}")
-    public ResponseEntity<byte[]> downloadFile(@PathVariable UUID id/*,
-                                               @RequestParam UUID userId*/) {
+    public ResponseEntity<byte[]>
+
+    downloadFile(@PathVariable UUID id/*,@RequestParam UUID userId*/) {
         Optional<StorageFile> fileOptional = storageFileService.getFileById(id);
         //Optional<StorageFile> doesFileAndUserExist = storageFileService.getFileByUserId(id, userId);
 
@@ -95,6 +96,8 @@ public class StorageFileController {
         return storageFileService.getAllFiles().stream().map(FileResponseDTO::fromModel);
     }
 
+    // Meant to handle output of finding a specific file but cannot be used as it is right now properly,
+    // - need to have a filter that only allows finding files under the user's ID
     @GetMapping("/searchFile/{id}")
     public Optional<StorageFile> getFileByFileAndUserId(@PathVariable UUID id/*,
                                                         @PathVariable UUID userId*/) {

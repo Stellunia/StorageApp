@@ -105,7 +105,7 @@ public class StorageUserController {
         }
     }
 
-    // Handles the listing of all existing users - gaslight, girlboss, gatekeep... or admin, in more proper terms
+    // Handles the listing of all existing users - gaslight, gatekeep, girlboss... or admin, in more proper terms
     @GetMapping("/admin/getUsers")
     public ResponseEntity<?> getAllUsers(){
         try {
